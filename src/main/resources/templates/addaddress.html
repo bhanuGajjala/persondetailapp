@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Address</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/header :: header"/>
+    <h2>Add Address Details</h2>
+    <div>
+        <form class="form-horizontal" th:object="${addressRequest}" th:action="@{/person/{personId}/address(personId=${personId})}" method="post">
+            <input type="hidden" th:field="*{personId}"/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Street :</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" th:field="*{street}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">City:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" th:field="*{city}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">State:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" th:field="*{state}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Postal Code:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" th:field="*{postalCode}"/>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

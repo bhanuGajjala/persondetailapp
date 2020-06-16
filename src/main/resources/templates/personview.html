@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Person View</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/header :: header"/>
+    <table class="table table-striped">
+        <tr>
+            <th>Person Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <tr>
+            <td th:text="${personResponse.id}"><a href="/person/{personResponse.id}">Person Id</a></td>
+            <td th:text="${personResponse.firstName}">First Name</td>
+            <td th:text="${personResponse.lastName}">LastName</td>
+<!--            <td><a th:href="${'/person/edit/' + personResponse.id}">Edit</a></td>-->
+            <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#edit">Edit</button></td>
+            <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#delete">Delete</button></td>
+<!--            <td><a th:href="${'/person/delete/' + personResponse.id}">Delete</a></td>-->
+        </tr>
+    </table>
+
+    <h2>Address List</h2> <a th:href="${'/person/' + personResponse.id + '/addressform'}"><button type="submit" class="btn btn-default">Add Address</button></a>
+    <div th:if="${not #lists.isEmpty(personResponse.addressResponses)}">
+        <table class="table table-striped">
+            <tr>
+                <th>Address Id</th>
+                <th>Street</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Postal Code</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="address : ${personResponse.addressResponses}">
+                <td th:text="${address.id}">AddressId</td>
+                <td th:text="${address.street}">Street</td>
+                <td th:text="${address.city}">City</td>
+                <td th:text="${address.state}">State</td>
+                <td th:text="${address.postalCode}">Postal Code</td>
+                <td><a th:href="${'/address/'+address.id}">Edit</a></td>
+                <td><a th:href="${personResponse.id+'/address/delete/'+address.id}">Delete</a></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="edit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Person</h4>
+            </div>
+            <div class="modal-body">
+                    <form class="form-horizontal" th:object="${updatePersonRequest}" th:action="@{/person/update/{personId}(personId=${personResponse.id})}" th:method="post">
+
+                        <div class="form-group">
+<!--                            <input type="hidden" th:field="*{id}" value="${personResponse.id}}"/>-->
+                            <label class="col-sm-2 control-label">First Name:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" th:field="*{firstName}" value="${personResponse.firstName}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Last Name:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" th:field="*{lastName}" value="${personResponse.lastName}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Delete Person Modal -->
+<div id="delete" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Person</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to delete person.</p>
+                <a th:href="${'/person/delete/' + personResponse.id}"><button type="button" class="btn btn-default">Delete</button></a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
