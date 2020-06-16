@@ -1,4 +1,4 @@
-#Person Detail app
+### Person Detail app
 This app developed using spring boot web applications, where user can perform following actions:
 * Add/Edit/Delete Persons
 * Add/Edit/Delete Address of Persons
